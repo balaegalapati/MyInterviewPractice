@@ -73,16 +73,15 @@ Converting java object to bite code is called Serialization
   * Serializable interface is marker interface(No methods).JVM will identify Objects implemented by Serializable are serializable and it will allow to serialize
   * serializable interfaces have 2 default methods `writeObject` ,`readObject` are there.we can override these methods to customize the serialization.
   
-      ` try (FileOutputStream fileOut = new FileOutputStream("person.ser");
+       ` try (FileOutputStream fileOut = new FileOutputStream("person.ser");
 				ObjectOutputStream out = new ObjectOutputStream(fileOut)) {
 			out.writeObject(person);
 			System.out.println("Serialized data is saved in person.ser");
 		} catch (Exception e) {
-			e.printStackTrace();
-		} ` 
+			e.printStackTrace()
+        } 
 
-
-        ` try (FileInputStream fileIn = new FileInputStream("person.ser");
+         try (FileInputStream fileIn = new FileInputStream("person.ser");
              ObjectInputStream in = new ObjectInputStream(fileIn)) {
             Person person = (Person) in.readObject();
             System.out.println("Deserialized Person:");
