@@ -29,21 +29,24 @@ using implement we can inheritance all methods in Interface to any class or Inte
     *   List
         *   ArrayList
         *   LinkedList
-        *   Vector
-        *   Stack
+        *   Vector --> Syncronized
+        *   Stack  | LIFO | push(add element) | pop (Remove element last) |peek (Read last element will not remove)
     * Set
-        *   HashSet
-        *   TreeSet
-        *   LinkedHashSet
+        *   HashSet |Unordered set
+        *   TreeSet | Order Set(Natural Order) 
+        *   LinkedHashSet | Insersion order
     * Queue
-        * PriorityQueue
-        * ArrayDeque
+        * PriorityQueue | Ordered elements based on Priority By default item with lowest value will have heighest priority |
+		* offer() -->Insert Elemet
+		* pop read and remove from Top
+		* peek only read not remove 
+        * ArrayDeque | It will suport both FIFO and LIFO | ddFirst(), addLast(), removeFirst(), and removeLast()
     *   Map
-        *   HashMap
-        *   TreeMap
-        *   LinkedHashMap
-        *   Hashtable
-        *   ConcurrentHashMap
+        *   HashMap |No order
+        *   TreeMap | natural order
+        *   LinkedHashMap |insertion order of keys
+        *   Hashtable | syncronized
+        *   ConcurrentHashMap |sumcronozed | New implementation |It divides the map into segments or "buckets," and locks only the affected segment during write operations
   
 | Class  |Best For   | Features  |
 |---|---|---|
@@ -54,3 +57,5 @@ using implement we can inheritance all methods in Interface to any class or Inte
 |LinkedHashSet|Insertion order
 |HashMap|Fast key-value map|Unordered, allows null
 |TreeMap|Sorted map|Keys are sorted
+
+Java Serialization

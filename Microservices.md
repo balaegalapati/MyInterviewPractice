@@ -53,4 +53,39 @@ Configuration file has 3 parts apart from apiVersion and kind:Deplyment/Service
     *  Slow roll out and deployment
  * Controil Playin
  * Data playin
+
+kubectl describe pod <pod-name>
+kubectl logs <pod-name> -c <container-name>
+
+## Resilience Pattens 
+Resilience Patterns are architectural and operational strategies that help applications remain reliable, available, and recover quickly from failures.
+* **Circute breaker Design patten** Example A is calling B and B is calling C.Saposte B is failing circute braker will stops retrying same call.Once pod is restarted circute braker off so call will reinitiate agin
+  Tools use Circute breaker design Patten Resilence 4j circute braker
+* **Retry machanisum for temparary failure**
+* ****
+* **Set timeout **
+* **Fallback mechanisum**
+
+## Saga Design Patten
+	* Archestrator
+		* There will be central archestotor or mediator will triger next steps.
+	* Coriograpy 
+		* Hear no middle man.Each service will know there responsibility.Ex once order is placed even will be triggred both payment and inventry will observe that even.
+		Payment service will react once it is success it will publish event to order and inventry.Inventry will response and do shipment one .
+## Outbox patten
+	* Example 
+* Idempotency 
+* Ded leter que
+* API Gateway
+* Internal API securuty
+	* mutuval TLS
+	* Service mesh istio
+## Logging 
+	Eache service while logging trace id
+	New Realic or logish
+ELK stack -->Elastic search ,Logstash,Kibana 
+## How Kubernaties Know new deplyment is happend
+	* Once kubects apply -f deply.yml is done first kubernaties api write the new state to etdc distibuted key value store.
+	 and notify to Deployment Controller by watch API
+	The controller then reconciles the change to make the cluster match the new desired state.
   ## Open Search ?
