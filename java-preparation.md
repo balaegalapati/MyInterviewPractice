@@ -58,4 +58,81 @@ using implement we can inheritance all methods in Interface to any class or Inte
 |HashMap|Fast key-value map|Unordered, allows null
 |TreeMap|Sorted map|Keys are sorted
 
-Java Serialization
+
+##   Why we need imutability
+  1.    In Hashing we required immutable Keys
+  2.    Immutable Objects are by default thread safe
+  **how to create Immutable Object**
+        1.    Declare class with final
+        2.    All variables private and final 
+        3.  No setters from Object cunstructor only we can modify data
+        4.    If fields are mutable Objects we need to return copy of Object in reads so we Object will not change.
+## Java Serialization
+Converting java object to bite code is called Serialization
+* To serialize a object we need to  implement Serializable interface.
+  * Serializable interface is marker interface(No methods).JVM will identify Objects implemented by Serializable are serializable and it will allow to serialize
+  * serializable interfaces have 2 default methods `writeObject` ,`readObject` are there.we can override these methods to customize the serialization.
+  ` try (FileOutputStream fileOut = new FileOutputStream("person.ser");
+             ObjectOutputStream out = new ObjectOutputStream(fileOut)) {
+            out.writeObject(person);
+            System.out.println("Serialized data is saved in person.ser");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }` 
+        ` try (FileInputStream fileIn = new FileInputStream("person.ser");
+             ObjectInputStream in = new ObjectInputStream(fileIn)) {
+            Person person = (Person) in.readObject();
+            System.out.println("Deserialized Person:");
+            System.out.println("Name: " + person.name);
+            System.out.println("Age: " + person.age);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        private void writeObject(ObjectOutputStream oos) throws IOException {
+        oos.defaultWriteObject();      // Write non-transient fields
+        oos.writeInt(age + 5);         // Custom logic (e.g., obfuscate)
+    }`
+      * Any field we dont want to serialize we have to use `transient` key word
+      * Example for usecase password should not wite as bite stream or we need to encript and decript while doing serialization.In that cases we are overide the writeObject and readObject to customize default behavior.
+*  If we need to more felxibility in serialization we need to use `Externalizable` interface.Need to overide `writeExternal`,`readExternal`
+
+##  Concurency
+ 1. Extend Thread class and overide Run method
+ 2. Implement Runnable interface and implement run method.
+    `Thread t=new Thread(()->{System.out.println("Hellooo")});
+    t.start();`
+ 3. Exicutor services
+ 	Executor ex =ExicutorService.newFixedThreadPool(5);
+ 		 ex =ExicutorService.newCachedThreadPool() Reuses existing thread if no thread is empty creates new thred
+ 		 ex =ExicutorService.newSingleThreadExecutor() sinle thread
+ 		 ex =ExicutorService.newScheduledThreadPool()
+      CompletionService<Result> ecs
+         = new ExecutorCompletionService<Result>(ex);
+         ecs.invokeAll(List of callables)
+         
+         ecs.take() will take first completed task
+
+**Concurrent Collections**
+	ConcurrentHashMap
+	CopyOnWriteArrayList and CopyOnWriteArraySet
+	BlockingQueue
+**Atomic Variables**
+	AtomicInteger, AtomicLong, AtomicBoolean, AtomicReference
+Synchronizers: High-level synchronization aids:
+
+**CountDownLatch**: Allows one or more threads to wait until a set of operations being performed in other threads completes.
+
+**CyclicBarrier**: A synchronization aid that allows a set of threads to all wait for each other to reach a common "barrier point" before continuing. Can be reused.
+
+**Semaphore**: A counting semaphore that controls access to a shared resource using a counter. It can limit the number of threads accessing a resource at once.
+
+**Exchanger**: A synchronization point at which threads can pair up and swap objects.
+
+**Locks (java.util.concurrent.locks)**: More flexible and powerful alternatives to the synchronized keyword.
+
+**Lock interface**: Provides more control over locking, including tryLock() (non-blocking), timed lock attempts, and interruptible locking.
+
+**ReentrantLock**: A reentrant mutual exclusion Lock that implements the Lock interface. A thread can acquire the same lock multiple times.
+
+**ReadWriteLock**: Divides access into read and write locks. Multiple threads can acquire the read lock concurrently, but only one thread can acquire the write lock exclusively.
