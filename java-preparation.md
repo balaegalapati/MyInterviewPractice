@@ -94,7 +94,7 @@ Converting java object to bite code is called Serialization
         private void writeObject(ObjectOutputStream oos) throws IOException {
         oos.defaultWriteObject();      // Write non-transient fields
         oos.writeInt(age + 5);         // Custom logic (e.g., obfuscate)
-    }`
+    }
       * Any field we dont want to serialize we have to use `transient` key word
       * Example for usecase password should not wite as bite stream or we need to encript and decript while doing serialization.In that cases we are overide the writeObject and readObject to customize default behavior.
 *  If we need to more felxibility in serialization we need to use `Externalizable` interface.Need to overide `writeExternal`,`readExternal`
@@ -102,8 +102,11 @@ Converting java object to bite code is called Serialization
 ##  Concurency
  1. Extend Thread class and overide Run method
  2. Implement Runnable interface and implement run method.
-    `Thread t=new Thread(()->{System.out.println("Hellooo")});
-    t.start();`
+   
+    Thread t=new Thread(()->{
+        System.out.println("Hellooo")
+        });
+    t.start();
  3. Exicutor services
  	Executor ex =ExicutorService.newFixedThreadPool(5);
  		 ex =ExicutorService.newCachedThreadPool() Reuses existing thread if no thread is empty creates new thred
@@ -138,3 +141,23 @@ Synchronizers: High-level synchronization aids:
 **ReentrantLock**: A reentrant mutual exclusion Lock that implements the Lock interface. A thread can acquire the same lock multiple times.
 
 **ReadWriteLock**: Divides access into read and write locks. Multiple threads can acquire the read lock concurrently, but only one thread can acquire the write lock exclusively.
+
+
+Difference between HashMap, ConcurrentHashMap, and Hashtable
+ 🔹 Difference between Iterator and ListIterator
+ 🔹 Difference between Comparator & Comparable
+ 🔹 How does Java manage memory (heap, stack, garbage collection)?
+ 🔹 Why is String immutable?
+ 🔹 final, finally, and finalize()
+ 🔹 What happens inside a HashMap during hash collision?
+ 🔹 Checked vs Unchecked exceptions — and when to use custom ones
+ 🔹 Java 8 Streams — performance vs readability
+ 🔹 Abstract class vs Interface
+ 🔹 Thread lifecycle
+ 🔹 Thread communication mechanisms
+ 🔹 Monitoring tools and their configuration in projects
+ 🔹 Usage & benefits of JpaRepository
+ 🔹 Singleton class
+ 🔹 @controller vs @RestController
+ 🔹 Configuring DB into the project 
+ 🔹 why is Java8 is more famous than other version like Java11, Java17

@@ -5,7 +5,7 @@
   * Scalability
   * Disaster recovery
 * Kubernaties there is minimum 2 nodes 
-  * Master Node -->This is MV or Phisical server which contains services to maintain Kubernaties clusters
+  * Master Node/Control Plain node -->This is VM or Phisical server which contains services to maintain Kubernaties clusters
     * API service (Rest APIs,CLIsetc)
     * Controller manager
     * Scheduler
@@ -75,7 +75,7 @@ Resilience Patterns are architectural and operational strategies that help appli
 ## Outbox patten
 	* Example 
 * Idempotency 
-* Ded leter que
+* "Dead Letter Queue" (DLQ),
 * API Gateway
 * Internal API securuty
 	* mutuval TLS
@@ -89,3 +89,11 @@ ELK stack -->Elastic search ,Logstash,Kibana
 	 and notify to Deployment Controller by watch API
 	The controller then reconciles the change to make the cluster match the new desired state.
   ## Open Search ?
+## service Mesh
+	* sidecar container NVOY proxy
+	* Mutuval TLS 
+	* Deplyment statgies like Canary,KB,Bluprint deployment 
+	* Observability -Kiyali track of service to service comunication
+	* serkute braking
+	* Retry,timeout
+	* Admition controls
