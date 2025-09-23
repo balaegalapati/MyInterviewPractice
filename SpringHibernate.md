@@ -31,3 +31,101 @@ Isolation.REPEATABLE_READ:
 This level prevents both dirty reads and non-repeatable reads. Once a transaction reads a row, subsequent reads of that same row within the same transaction will return the same value, even if another transaction commits changes to that row. However, it may still allow phantom reads.
 Isolation.SERIALIZABLE:
 This is the highest and most restrictive isolation level. It ensures full isolation from other transactions, preventing dirty reads, non-repeatable reads, and phantom reads. It achieves this by effectively serializing transactions, meaning they appear to execute one after another, which can significantly reduce concurrency. 
+
+Feign Client in Spring Boot
+@FeignClient(name="servicename",url="${url}")
+public interface InternalService{
+	@getrequest(@urlParam/@pathparam)
+	List<Bean> getData(name){
+	}
+}
+
+https://www.youtube.com/watch?v=wmawYODmQU0&t=99s
+https://www.youtube.com/watch?v=B8x4wBBT6M0
+https://www.youtube.com/watch?v=8Ooxz2dgtPo
+https://www.youtube.com/watch?v=7nm1pYuKAhY
+
+https://www.youtube.com/watch?v=sSKhdZ32YpY
+
+
+## exception Handling
+*   We can use @ExceptionHandler anotation and write method.any ArithmeticException throw in that class will go to this method and throw message
+  @ExceptionHandler(ArithmeticException.class)
+  public String handleArithmeticException(ArithmeticException ex) {
+        return "Error: Cannot divide by zero!";
+    }
+*   Advices like ControllerAdvice or RestControlerAdvice are grobale advices.That will call expections from global
+  @RestControllerAdvice
+  public class AppExceptionHandler {
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<String> handleUserNotFound(UserNotFoundException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+    }
+}
+* we can achive using AOP for custom expections
+## Authenication and autherizatio@Configuration 
+  @Configuration or @EnableWebSecurity,@EnableMethodSecurity
+public class SecurityConfig {
+
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
+            .csrf(csrf -> csrf.disable())
+            .authorizeHttpRequests(auth -> auth
+                .requestMatchers("/api/auth/**").permitAll()
+                .anyRequest().authenticated()
+            )
+            .oauth2ResourceServer(oauth2 -> oauth2.jwt()); // configure JWT validation if needed
+
+        return http.build();
+    }
+}
+           +----------------------+
+           |   @EnableWebSecurity |
+           +----------------------+
+                     |
+                     v
+        +--------------------------+
+        | SecurityFilterChain Bean |
+        +--------------------------+
+                     |
+                     v
+          +--------------------+
+          | HttpSecurity config|
+          +--------------------+
+          |  - Endpoint rules  |
+          |  - CSRF / CORS     |
+          |  - Authentication  |
+          |  - Authorization   |
+          +--------------------+
+                     |
+                     v
+        +--------------------------+
+        | Spring Security Filters  |
+        |  (Filter Chain)          |
+        +--------------------------+
+                     |
+                     v
+          +--------------------+
+          | Incoming HTTP Req  |
+          +--------------------+
+                     |
+                     v
+     +-----------------------------+
+     | AuthenticationManager       |
+     |  - Validates credentials    |
+     |  - Checks JWT, DB, etc.    |
+     +-----------------------------+
+                     |
+          +----------------------+
+          | AuthorizationManager |
+          |  - Checks roles/perm |
+          +----------------------+
+                     |
+                     v
+          +--------------------+
+          |   Controller /     |
+          |   Endpoint logic   |
+          +--------------------+
+

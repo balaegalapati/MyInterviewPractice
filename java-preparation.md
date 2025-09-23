@@ -161,3 +161,138 @@ Difference between HashMap, ConcurrentHashMap, and Hashtable
  🔹 @controller vs @RestController
  🔹 Configuring DB into the project 
  🔹 why is Java8 is more famous than other version like Java11, Java17
+
+ACID principle
+A- Automacy ->All operations in transsions should all success or all failed
+C-Consistency ->Data should be consistency before the transation and after the transassion
+I-Integredity ->If more then one transsions is running in DB it should be serialized and commit one by one
+D- Durability ->After transsation is completed data should not lost even db creashed
+
+## Java 8 Default Method Conflict Resolution Rules
+* Rule 1: Class wins over interface
+	class Parent {
+       public void show() {
+        System.out.println("Parent's show");
+        }
+    }
+
+    interface A {
+        default void show() { System.out.println("A's show"); }
+    }
+
+    class Child extends Parent implements A {}
+
+    public class Test {
+        public static void main(String[] args) {
+            new Child().show(); // Parent's sh}
+* Rule 2: More specific interface wins
+    interface A {
+        default void show() { System.out.println("A's show"); }
+    }
+
+    interface B extends A {
+        default void show() { System.out.println("B's show"); }
+    }
+    class MyClass implements B {}
+    public class Test {
+        public static void main(String[] args) {
+            new MyClass().show(); // B's show
+        }
+    }
+
+* Rule 3: Explicit override required (diamond problem)
+	* If two unrelated interfaces provide the same default method, the implementing class must  override it and explicitly choose.
+    interface A {
+        default void show() { System.out.println("A's show"); }
+    }
+
+    interface B {
+        default void show() { System.out.println("B's show"); }
+    }
+
+    class MyClass implements A, B {
+        @Override
+        public void show() {
+            // Custom choice
+            A.super.show(); 
+            // Or B.super.show();
+        }
+    }
+
+    public class Test {
+        public static void main(String[] args) {
+            new MyClass().show(); // A's show (if A.super.show() chosen)
+        }
+    }
+
+## Java Method Overloading Resolution Rules
+  1. Exact Match Preferred
+        void test(int x) { System.out.println("int"); }
+        void test(long x) { System.out.println("long"); }
+
+    test(5); // int → exact match
+
+* Widening > Boxing > Varargs
+    Order of preference when resolving:
+    Widening primitive conversion
+    Boxing/unboxing
+    Varargs
+
+    void show(long x) { System.out.println("widening"); }
+void show(Integer x) { System.out.println("boxing"); }
+void show(int... x) { System.out.println("varargs"); }
+
+show(10); // widening → long
+
+3. Widening Beats Boxing
+Allowed widenings:
+
+byte → short → int → long → float → double
+
+char → int → long → float → double
+
+❌ Not allowed:
+
+Narrowing (e.g., double → int).
+void print(long x) { System.out.println("long"); }
+void print(Integer x) { System.out.println("Integer"); }
+
+print(5); // long (widening)
+
+4. Boxing Beats Varargs
+
+void display(Integer x) { System.out.println("Integer"); }
+void display(int... x) { System.out.println("varargs"); }
+
+display(5); // Integer (boxing)
+
+5. Ambiguity Leads to Compilation Error
+void fun(Integer x, int y) {}
+void fun(int x, Integer y) {}
+
+fun(10, 10); // ❌ ambiguous → compiler error
+6. Null Argument Resolution
+
+If null is passed, the most specific applicable overload is chosen.
+
+If multiple reference types are equally valid, ambiguity occurs.
+
+void test(String s) { System.out.println("String"); }
+void test(Object o) { System.out.println("Object"); }
+
+test(null); // String (more specific than Object)
+
+
+void test(String s) {}
+void test(StringBuilder sb) {}
+
+test(null); // ❌ ambiguous → compiler error
+
+7. Autoboxing and Widening Together
+
+Java does not allow both at the same time.
+
+Example: int → Integer → long is invalid.
+void check(Long x) { System.out.println("Long"); }
+
+check(5); // ❌ compile error (int → Integer → Long not allowed)
